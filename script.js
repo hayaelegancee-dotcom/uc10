@@ -182,7 +182,7 @@ function initGallery() {
         galleryItem.setAttribute('data-index', index);
         
         const img = document.createElement('img');
-        img.src = `umar/${imageFile}`;
+        img.src = imageFile;
         img.alt = `UC10 Football Academy - Image ${index + 1}`;
         img.loading = 'lazy';
         
@@ -202,7 +202,7 @@ function initGallery() {
     // Open lightbox
     function openLightbox(index) {
         currentImageIndex = index;
-        lightboxImage.src = `umar/${imageFiles[index]}`;
+        lightboxImage.src = imageFiles[index];
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -216,13 +216,13 @@ function initGallery() {
     // Navigate to previous image
     function prevImage() {
         currentImageIndex = (currentImageIndex - 1 + imageFiles.length) % imageFiles.length;
-        lightboxImage.src = `umar/${imageFiles[currentImageIndex]}`;
+        lightboxImage.src = imageFiles[currentImageIndex];
     }
 
     // Navigate to next image
     function nextImage() {
         currentImageIndex = (currentImageIndex + 1) % imageFiles.length;
-        lightboxImage.src = `umar/${imageFiles[currentImageIndex]}`;
+        lightboxImage.src = imageFiles[currentImageIndex];
     }
 
     // Event listeners
@@ -396,29 +396,17 @@ function initStatsAnimation() {
     
     const animateStats = () => {
         statNumbers.forEach(stat => {
-            const originalText = stat.textContent;
-            const isPercentage = originalText.includes('%');
-            const isPlus = originalText.includes('+');
-            
-            // Extract the number from the text
-            const target = parseInt(originalText);
+            const target = parseInt(stat.textContent);
             const increment = target / 50;
             let current = 0;
             
             const updateStat = () => {
                 if (current < target) {
                     current += increment;
-                    if (isPercentage) {
-                        stat.textContent = Math.ceil(current) + '%';
-                    } else if (isPlus) {
-                        stat.textContent = Math.ceil(current) + '+';
-                    } else {
-                        stat.textContent = Math.ceil(current);
-                    }
+                    stat.textContent = Math.ceil(current) + '+';
                     requestAnimationFrame(updateStat);
                 } else {
-                    // Restore original text with correct symbol
-                    stat.textContent = originalText;
+                    stat.textContent = target + '+';
                 }
             };
             
